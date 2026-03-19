@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eid Mubarak, Mahii!</title>
+    <!-- Google Fonts for Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Palette */
+            --bg-dark-green: #1a4d2e;
+            --container-bg: #eef5e9; /* Pale green / cream */
+            --primary-text: #2f4f4f;
+            --accent-gold: #ffc107;
+            --btn-hover: #ffca28;
+            --card-shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark-green);
+            color: var(--primary-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            /* Subtle background pattern (optional) */
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 60%);
+        }
+
+        /* Typography Classes */
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        h1, h2 {
+            color: #1a4d2e;
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            color: #4a5c50;
+        }
+
+        /* Main Container */
+        .container {
+            background-color: var(--container-bg);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px var(--card-shadow), inset 0 0 15px rgba(255,255,255,0.5);
+            width: 100%;
+            max-width: 600px;
+            min-height: 550px;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Views Setup with Cross-fade */
+        .view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        .view.visible {
+            opacity: 1;
+        }
+
+        /* Buttons */
+        button {
+            background-color: var(--accent-gold);
+            color: #333;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px; /* Pill-shaped */
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: scale(1.05); /* Slight hover scale effect */
+            background-color: var(--btn-hover);
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.5);
+        }
+
+        .back-btn {
+            background-color: #d8e3d5;
+            box-shadow: none;
+            margin-top: 30px;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background-color: #c7d6c4;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Shared Specific Elements */
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        /* Grid for View 2 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .grid-card {
+            background: #ffffff;
+            padding: 20px 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .grid-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent-gold);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .grid-card strong {
+            font-size: 0.95rem;
+            color: #1a4d2e;
+        }
+
+        /* Polaroid Row for View 3 */
+        .polaroid-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 30%;
+            min-width: 130px;
+            transition: transform 0.3s;
+        }
+
+        .polaroid:nth-child(1) { transform: rotate(-4deg); }
+        .polaroid:nth-child(2) { transform: rotate(2deg); margin-top: 10px; }
+        .polaroid:nth-child(3) { transform: rotate(-2deg); }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 10;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background-color: #eee;
+            display: block;
+        }
+
+        .polaroid-caption {
+            font-family: 'Dancing Script', cursive;
+            margin-top: 12px;
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0;
+        }
+
+        /* Message Box for View 4 */
+        .message-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-gold);
+            text-align: left;
+            margin-bottom: 20px;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Video Container for View 5 */
+        .video-container {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 16/9;
+            background-color: #111;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            color: white;
+            border: 3px solid white;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* View 6 Specifics */
+        .couple-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 5px solid white;
+        }
+
+        .footer-text {
+            font-size: 2.2rem;
+            color: #1a4d2e;
+            margin-top: 30px;
+        }
+
+        /* Click sound + blast effect */
+        .blast-row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .blast-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            cursor: pointer;
+            user-select: none;
+            transform-origin: center;
+            transition: transform 0.22s ease, filter 0.22s ease;
+        }
+
+        .blast-item:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 8px rgba(255, 200, 60, 0.6));
+        }
+
+        .blast-item:active {
+            transform: scale(0.95);
+        }
+
+        .blast-container {
+            position: absolute;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            overflow: visible;
+            z-index: 9999;
+        }
+
+        .blast-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffc107, #ff6b6b);
+            opacity: 0.9;
+            transform: translate(-50%, -50%) scale(0);
+            animation: blast 0.6s forwards ease-out;
+        }
+
+        /* Gallery Grid for View 7 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music - Auto-play and Loop -->
+    <audio id="bgMusic" autoplay loop muted style="display: none;">
+        <source src="WhatsApp Audio 2026-03-19 at 10.08.49 PM.mpeg" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="container">
+        
+        <!-- View 1: Welcome Screen -->
+        <div id="view1" class="view active visible">
+            <!-- Using Placecats for a cute cat placeholder -->
+            <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 8.58.39 PM.jpeg" alt="Cute Cat" class="avatar">
+            <h1 class="cursive" style="font-size: 2.8rem;">Eid ka Chand Mubarak, Meri jann! 🌙</h1>
+            <p>"Tumhare bina meri Eid adhuri hai. Maine tumhare liye kuch khaas taiyar kiya hai..."</p>
+            <button onclick="switchView('view2')">AAPKI EIDI DEKHIEN 💌</button>
+        </div>
+
+        <!-- View 2: Main Dashboard -->
+        <div id="view2" class="view">
+            <h1 class="cursive" style="font-size: 2.8rem;">Eid Special Selection</h1>
+            <p>laiba Meri janejhan, choose your surprise gift below:</p>
+            
+            <div class="grid-container">
+                <div class="grid-card" onclick="switchView('view3')">
+                    <div class="icon">🌙</div>
+                    <strong>Yaadein</strong>
+                </div>
+                <div class="grid-card" onclick="switchView('view4')">
+                    <div class="icon">💌</div>
+                    <strong>Dil Ki Baat</strong>
+                </div>
+                <div class="grid-card" onclick="switchView('view5')">
+                    <div class="icon">�</div>
+                    <strong>Fvt Songs Dedicated to You</strong>
+                </div>
+                <div class="grid-card" onclick="switchView('view7')">
+                    <div class="icon">🖼️</div>
+                    <strong>Gallery</strong>
+                </div>
+            </div>
+
+            <button onclick="switchView('view6')">FINALLY ✨</button>
+        </div>
+
+        <!-- View 3: Yaadein -->
+        <div id="view3" class="view">
+            <h2 class="cursive" style="font-size: 2.8rem;">Love Memories</h2>
+            <div class="polaroid-row">
+                <div class="polaroid">
+                    <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 8.15.40 PM.jpeg" alt="Memory 1">
+                    <p class="polaroid-caption"> Peak Love Vibe</p>
+                </div>
+                <div class="polaroid">
+                    <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 8.15.41 PM.jpeg" alt="Memory 2">
+                    <p class="polaroid-caption">Romantic Discussion</p>
+                </div>
+                <div class="polaroid">
+                    <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 8.38.26 PM.jpeg" alt="Memory 3">
+                    <p class="polaroid-caption">Us ❤️</p>
+                </div>
+            </div>
+            <button class="back-btn" onclick="switchView('view2')">&larr; BACK TO DASHBOARD</button>
+        </div>
+
+        <!-- View 4: Dil Ki Baat -->
+        <div id="view4" class="view">
+            <h2 class="cursive" style="font-size: 2.8rem;">Mere Dil se...</h2>
+            <div class="message-box">
+                <p>Meri pyari Laiba,</p>
+                <p>Is special din par bas yahi dua hai ki tumhari zindagi hamesha khushiyon aur muskurahaton se bhari rahe. Tum meri zindagi me us chand ki tarah ho, jo har andhere ko raushan kar deta hai. Hamara har lamha ek khoobsurat yaad ban jaye. Eid Mubarak mere humsafar! ❤️</p>
+            </div>
+            <button class="back-btn" onclick="switchView('view2')">&larr; BACK</button>
+        </div>
+
+        <!-- View 5: Fvt Songs Dedicated to You -->
+        <div id="view5" class="view">
+            <h2 class="cursive" style="font-size: 2.8rem;">Fvt Songs Dedicated to You</h2>
+            <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%;">
+                <audio controls style="width: 100%; max-width: 400px;">
+                    <source src="WhatsApp Audio 2026-03-19 at 10.08.49 PM.mpeg" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <audio controls style="width: 100%; max-width: 400px;">
+                    <source src="WhatsApp Audio 2026-03-19 at 10.10.26 PM.mpeg" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <audio controls style="width: 100%; max-width: 400px;">
+                    <source src="WhatsApp Audio 2026-03-19 at 10.11.20 PM.mpeg" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <audio controls style="width: 100%; max-width: 400px;">
+                    <source src="WhatsApp Audio 2026-03-19 at 10.14.43 PM.mpeg" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <p><em>Listen to these songs dedicated just for you!</em></p>
+            <button class="back-btn" onclick="switchView('view2')">&larr; BACK</button>
+        </div>
+
+        <!-- View 6: Finally -->
+        <div id="view6" class="view">
+            <h1 class="cursive" style="font-size: 3.2rem; color: #d35400; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); margin-bottom: 25px;">Forever To Go! 💍</h1>
+            
+            <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 9.06.06 PM.jpeg" alt="Couple GIF placeholder" class="couple-img">
+            
+            <p style="font-weight: 500; font-size: 1.1rem; padding: 0 15px;">
+                Ye Eid to shuruwat hai, aage aane wali saari Eiden tumhare saath bitani hain. I love you meri janemn, hamesha hamesha ke liye.
+            </p>
+            
+            <div class="cursive footer-text">Together Always...</div>
+            <div class="blast-row" aria-label="Click for a spark">
+                <span class="blast-item" data-type="heart" title="Love">❤️</span>
+                <span class="blast-item" data-type="flower" title="Flower">🌸</span>
+                <span class="blast-item" data-type="sparkle" title="Sparkle">✨</span>
+            </div>
+        </div>
+
+        <!-- View 7: Gallery -->
+        <div id="view7" class="view">
+            <h2 class="cursive" style="font-size: 2.8rem;">Our Gallery</h2>
+            <div class="gallery-grid">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.06 PM.jpeg" alt="Gallery Image 1" class="gallery-img">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.07 PM (1).jpeg" alt="Gallery Image 2" class="gallery-img">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.07 PM.jpeg" alt="Gallery Image 3" class="gallery-img">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.08 PM (1).jpeg" alt="Gallery Image 4" class="gallery-img">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.08 PM (2).jpeg" alt="Gallery Image 5" class="gallery-img">
+                <img src="WhatsApp Image 2026-03-19 at 9.57.08 PM.jpeg" alt="Gallery Image 6" class="gallery-img">
+                <img src="D:\University\Web Engineering\whish_Eid.html\WhatsApp Image 2026-03-19 at 9.57.09 PM.jpeg" alt="Gallery Image 6" class="gallery-img">
+            </div>
+            <button class="back-btn" onclick="switchView('view2')">&larr; BACK TO DASHBOARD</button>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Setup a small, friendly click sound using the Web Audio API.
+        // It will play on every click in the document.
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playLovelyClickSound() {
+            // Some browsers require a user interaction before playing audio.
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(440, now);
+            osc.frequency.exponentialRampToValueAtTime(660, now + 0.15);
+
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+            osc.connect(gain).connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.5);
+        }
+
+        function createBlast(x, y) {
+            const container = document.createElement('div');
+            container.className = 'blast-container';
+            container.style.left = `${x}px`;
+            container.style.top = `${y}px`;
+            document.body.appendChild(container);
+
+            const particles = 12;
+            for (let i = 0; i < particles; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'blast-dot';
+                const angle = (Math.PI * 2 * i) / particles + (Math.random() - 0.5) * 0.4;
+                const distance = 40 + Math.random() * 30;
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance;
+                dot.style.setProperty('--dx', `${dx}px`);
+                dot.style.setProperty('--dy', `${dy}px`);
+                container.appendChild(dot);
+            }
+
+            setTimeout(() => container.remove(), 700);
+        }
+
+        document.addEventListener('click', (event) => {
+            playLovelyClickSound();
+
+            const blastTarget = event.target.closest('.blast-item');
+            if (!blastTarget) return;
+
+            const rect = blastTarget.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            createBlast(centerX, centerY);
+        });
+
+        function switchView(viewId) {
+            // Find the currently active and visible view
+            const currentView = document.querySelector('.view.active');
+
+            if (currentView) {
+                // 1. Fade out the current view
+                currentView.classList.remove('visible');
+
+                // 2. Wait for the CSS transition to finish (0.4s)
+                setTimeout(() => {
+                    // Hide current view completely
+                    currentView.classList.remove('active');
+
+                    // 3. Prepare the next view
+                    const nextView = document.getElementById(viewId);
+                    if (nextView) {
+                        // Display it (opacity is still 0)
+                        nextView.classList.add('active');
+
+                        // Force a reflow so the browser registers the display change
+                        void nextView.offsetWidth;
+
+                        // 4. Fade in the next view
+                        nextView.classList.add('visible');
+                    }
+                }, 400); // Matches the 0.4s transition duration
+            }
+        }
+
+        // Unmute background music on first user interaction (browser autoplay policy)
+        function enableAudio() {
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic && bgMusic.muted) {
+                bgMusic.muted = false;
+                bgMusic.play();
+                // Remove listener after first interaction
+                document.removeEventListener('click', enableAudio);
+            }
+        }
+
+        // Listen for first click to unmute
+        document.addEventListener('click', enableAudio);
+    </script>
+</body>
+</html>
