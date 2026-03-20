@@ -402,7 +402,7 @@
 
     <!-- Background Music - Auto-play and Loop -->
     <audio id="bgMusic" autoplay loop muted style="display: none;">
-        <source src="WhatsApp Audio 2026-03-19 at 10.08.49 PM.mpeg" type="audio/mpeg">
+        <source src="WhatsApp Audio 2026-03-20 at 9.25.17 AM.mpeg" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -617,6 +617,17 @@
         });
 
         function switchView(viewId) {
+            const bgMusic = document.getElementById('bgMusic');
+
+            // Pause background music when entering view5 (favorite songs page)
+            if (viewId === 'view5' && bgMusic) {
+                bgMusic.pause();
+            }
+            // Resume background music when leaving view5
+            else if (bgMusic && bgMusic.paused) {
+                bgMusic.play();
+            }
+
             // Find the currently active and visible view
             const currentView = document.querySelector('.view.active');
 
