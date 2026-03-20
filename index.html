@@ -63,10 +63,44 @@
             min-height: 550px;
             padding: 40px 30px;
             position: relative;
+            z-index: 2;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        .floating-background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+            filter: saturate(1.2) brightness(1.05);
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            will-change: transform, opacity;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) translateX(35px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* Views Setup with Cross-fade */
@@ -372,6 +406,7 @@
         Your browser does not support the audio element.
     </audio>
 
+    <div class="floating-background" aria-hidden="true"></div>
     <div class="container">
         
         <!-- View 0: Password Login -->
@@ -621,6 +656,36 @@
             }
         }
 
+        // Moving hearts/flowers background animation
+        function createFloatingParticles() {
+            const container = document.querySelector('.floating-background');
+            if (!container) return;
+
+            const symbols = ['❤️', '🌸', '💚', '🌼', '💐'];
+            const total = 32;
+
+            for (let i = 0; i < total; i++) {
+                const span = document.createElement('span');
+                span.className = 'floating-item';
+                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+                const startLeft = Math.random() * 100;
+                const size = 14 + Math.random() * 26;
+                const duration = 7 + Math.random() * 7;
+                const delay = Math.random() * -duration;
+
+                span.style.left = `${startLeft}vw`;
+                span.style.fontSize = `${size}px`;
+                span.style.animationDuration = `${duration}s`;
+                span.style.animationDelay = `${delay}s`;
+                span.style.opacity = '0.8';
+                span.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                container.appendChild(span);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', createFloatingParticles);
         // Listen for first click to unmute
         document.addEventListener('click', enableAudio);
     </script>
